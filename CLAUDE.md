@@ -64,3 +64,51 @@ Key directories:
 - `src/ui/` - Svelte components and views
 - `src/utils/` - Utility functions
 - `docs/` - Feature specifications and implementation plans
+
+## Workflow Constraints
+
+### 1. Requirements Definition
+- If `.claude_workflow/complete.md` exists, reference it.
+- Clarify objectives, assess current state, and set success criteria.
+- Document findings in `.claude_workflow/requirements.md`.
+- **Mandatory Confirmation**: "Requirements definition phase is complete. May I proceed to the design phase?"
+
+### 2. Design
+- **Read `.claude_workflow/requirements.md` before starting.**
+- Explore approaches, define implementation steps, and identify potential issues.
+- Document design in `.claude_workflow/design.md`.
+- **Mandatory Confirmation**: "Design phase is complete. May I proceed to the task breakdown phase?"
+
+### 3. Task Breakdown
+- **Read `.claude_workflow/design.md` before starting.**
+- Decompose into executable tasks and set priorities.
+- Document tasks in `.claude_workflow/tasks.md`.
+- **Mandatory Confirmation**: "Task breakdown phase is complete. May I proceed to the execution phase?"
+
+### 4. Task Execution
+- **Read `.claude_workflow/tasks.md` before starting.**
+- Execute tasks sequentially and update progress in `.claude_workflow/tasks.md`.
+- For each task requiring code changes, apply Test-Driven Development (TDD):
+  1. Write a failing automated test for the desired behavior.
+  2. Implement code to make the test pass.
+  3. Run all tests to ensure they all pass.
+  4. Refactor code and tests for clarity and maintainability.
+  5. Update the test list (`.claude_workflow/tasks.md`) with any new scenarios.
+- **Mandatory Confirmation**: "Requirements definition phase is complete. May I proceed to the design phase?"
+
+## Execution Rules
+
+### File Operations
+- Always review existing documents before editing any file; when using content from them, cite or reference appropriately.
+
+### Phase Management
+- At the start of each phase: Report "Loaded previous phase MD file."
+- At the end of each phase: Confirm that the results meet expectations.
+- Do not begin implementation without requirements-definition.
+
+### Execution Policy
+- Proceed incrementally: Make small, incremental changes rather than all at once.
+- Do not run multiple tasks in parallel.
+- Resolve all errors before proceeding to the next step.
+- Do not ignore errors to advance phases.
+- Do not add any functionality not specified in the instructions.

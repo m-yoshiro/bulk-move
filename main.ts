@@ -11,13 +11,13 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 }
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+	settings!: MyPluginSettings;
 
-	async onload() {
+	override async onload() {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (_evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			new Notice('This is a notice!');
 		});
@@ -40,7 +40,7 @@ export default class MyPlugin extends Plugin {
 		this.addCommand({
 			id: 'sample-editor-command',
 			name: 'Sample editor command',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
+			editorCallback: (editor: Editor) => {
 				console.log(editor.getSelection());
 				editor.replaceSelection('Sample Editor Command');
 			}
@@ -49,7 +49,7 @@ export default class MyPlugin extends Plugin {
 		this.addCommand({
 			id: 'open-sample-modal-complex',
 			name: 'Open sample modal (complex)',
-			checkCallback: (checking: boolean) => {
+			checkCallback: (checking: boolean): boolean | undefined => {
 				// Conditions to check
 				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
 				if (markdownView) {
@@ -62,6 +62,7 @@ export default class MyPlugin extends Plugin {
 					// This command will only show up in Command Palette when the check function returns true
 					return true;
 				}
+				return undefined;
 			}
 		});
 
@@ -78,7 +79,7 @@ export default class MyPlugin extends Plugin {
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
-	onunload() {
+	override onunload() {
 
 	}
 
@@ -96,12 +97,12 @@ class SampleModal extends Modal {
 		super(app);
 	}
 
-	onOpen() {
+	override onOpen() {
 		const {contentEl} = this;
 		contentEl.setText('Woah!');
 	}
 
-	onClose() {
+	override onClose() {
 		const {contentEl} = this;
 		contentEl.empty();
 	}
